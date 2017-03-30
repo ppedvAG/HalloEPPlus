@@ -28,7 +28,9 @@ namespace ppedv.HalloEPPlus.DatenSchreiben
                 //neues WorkSheet erstellen mit den Titel "Hallo"
                 var ws = pack.Workbook.Worksheets.Add("Hallo");
 
-                ws.Cells["A1"].Value = "Hallo A1";
+                //ws.Cells["A1"].Value = "Hallo A1";
+
+                ws.Cells[1,1].Value = "Hallo A1";
 
                 //Änderungen der Datei abspeichern
                 pack.Save();
