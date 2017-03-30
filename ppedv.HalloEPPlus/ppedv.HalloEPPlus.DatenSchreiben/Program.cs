@@ -29,8 +29,42 @@ namespace ppedv.HalloEPPlus.DatenSchreiben
                 var ws = pack.Workbook.Worksheets.Add("Hallo");
 
                 //ws.Cells["A1"].Value = "Hallo A1";
+                //ws.Cells[1,1].Value = "Hallo A1";
 
-                ws.Cells[1,1].Value = "Hallo A1";
+                ws.Cells[1, 1].Value = "Tag";
+                ws.Cells[1, 2].Value = "Umsatz";
+
+                var now = DateTime.Now;
+                var ran = new Random();
+                for (int i = 1; i <= DateTime.DaysInMonth(now.Year, now.Month); i++)
+                {
+                    DateTime day = new DateTime(now.Year, now.Month, i);
+                    int rowNum = i + 1;
+
+                    if (day.DayOfWeek == DayOfWeek.Saturday)
+                    {
+                        ws.Cells[rowNum, 1].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        ws.Cells[rowNum, 1].Style.Fill.BackgroundColor.Indexed = 41;
+                    }
+
+                    if (day.DayOfWeek == DayOfWeek.Sunday)
+                    {
+                        ws.Cells[rowNum, 1].Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+                        ws.Cells[rowNum, 1].Style.Fill.BackgroundColor.Indexed = 42;
+                    }
+
+
+                    ws.Cells[rowNum, 1].Style.Numberformat.Format = DateTimeFormatInfo.CurrentInfo.ShortDatePattern;
+                    ws.Cells[rowNum, 1].Value = day;
+
+                    ws.Cells[rowNum, 2].Style.Numberformat.Format = "€#,##0.00";
+                    ws.Cells[rowNum, 2].Value = ran.NextDouble() * 100;
+
+                }
+
+                ws.Column(1).AutoFit();
+                ws.Column(2).AutoFit();
+
 
                 //Änderungen der Datei abspeichern
                 pack.Save();
